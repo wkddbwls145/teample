@@ -146,11 +146,10 @@
       <div class="container">
         <div class="row">
           <div>
-            <a href="services.html" class="slider btn btn-primary">레벨테스트</a>
+            <a href="#" class="slider btn btn-primary" id="levelTestButton">레벨테스트</a>
           </div>
           <div style="margin-left: auto;">
-            <a href="services.html" class="slider btn btn-primary">이전</a>
-            <a href="services.html" class="slider btn btn-primary">다음</a>
+            <a href="edu002" class="slider btn btn-primary">다음</a>
           </div>
           <div class="col-lg-12 mt-5 mt-lg-0">
             <iframe width="100%" height="600px" src="https://www.youtube.com/embed/xH3SqAhULjI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -245,6 +244,19 @@
     <script src="static/js/script.js"></script>
 
   </div><!-- Body inner end -->
+  <py-script>
+  from js import document,window
+  from pyodide.ffi import create_proxy
+  print('hello')
+
+  def testF(event):
+    print("sucess")
+    window.location.href = 'http://172.20.10.2:8080'
+    
+  e1 = document.getElementById("levelTestButton")
+  e1.addEventListener("click", create_proxy(testF))
+
+  </py-script>
 </body>
 
 </html>
