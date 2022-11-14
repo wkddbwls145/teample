@@ -40,51 +40,6 @@
   <link rel="stylesheet" href="static/css/pyscript.css" />
   <link rel="stylesheet" href="static/css/repl.css" />
   <script defer src="static/js/pyscript.js"></script>
-  		<style>
-			.jb-text {
-				position: absolute;
-				top: 0px;
-				width: 100%;
-				height: 100%;
-			}
-			.jb-text-table {
-				display: table;
-				width: 100%;
-				height: 100%;
-			}
-			.jb-text-table-row {
-				display: table-row;
-			}
-			.jb-text-table-cell {
-				display: table-cell;
-				vertical-align: middle;
-			}
-			.jb-text p {
-				margin: 0px 40px;
-				padding: 10px;
-				text-align: center;
-        color:#FFFFFF;
-        font-size: 70px;
-			}
-
-      .nameInput{
-    width: 90%;
-    margin: 10px auto;
-}
-.text {
-    float: left;
-    width:30%;
-    box-sizing: border-box;
-}
-.input {
-    border: 1px solid #000000;
-    width:70%;
-    box-sizing: border-box;
-    height: 50px;
-    border-radius: 5px;
-}
-
-		</style>
 
 </head>
 
@@ -145,37 +100,16 @@
                       <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">테스트 메뉴<i
                           class="fa fa-angle-down"></i></a>
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="/quizForm">테스트</a></li>
-                        <li><a href="/resultIntro">결과확인</a></li>
+                        <li><a href="projects.html">레벨테스트</a></li>
+                        <li><a href="projects-single.html">결과확인</a></li>
                       </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/forumList">개발자 포럼</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.html.html">개발자 포럼</a></li>
                   </ul>
                 </div>
               </nav>
             </div>
           </div>
-
-              <div id="banner-area" class="banner-area" style="background-image:url(static/images/banner/banner1.jpg)">
-      <div class="banner-text">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="banner-heading">
-                <h1 class="banner-title">레벨테스트 풀기</h1>
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb justify-content-center">
-                    <li class="breadcrumb-item"><a href="#">홈</a></li>
-                    <li class="breadcrumb-item"><a href="#">테스트메뉴</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">테스트</li>
-                  </ol>
-                </nav>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
           <div class="search-block" style="display: none;">
             <label for="search-field" class="w-100 mb-0">
@@ -187,72 +121,81 @@
       </div>
     </header>
 
-    <section id="main-container" class="main-container">
-      <div class="container">
-      <!-- 문제 푼 시간-->
-      <!--
-      <div class="font-mono">start time: <label id="outputDiv"></label></div>
-      <div id="outputDiv2" class="font-mono"></div>
-      -->
-      <div class="col-lg-5" style="margin-right: auto; margin-bottom: 25px;">
-        <a>시간 : </a>
-      </div>
-
-      <!-- 문제 -->
-          <div class="col-lg-12 mt-5 mt-lg-0" style="overflow:scroll; width:100%; height:600px; border: 1px solid black;">
-            <ul>
-            {% for item in resultList %}
-              <li style="margin:10px 0;">
-                {{ loop.index }}. {{item.QESTION}} <b>(배점 : {{item.SCORE}}점)</b>
-                <!-- {{item.SEQ}}/{{item.QESTION}}/{{item.IMG_SRC}}/{{item.DIFF}} -->
-                <img src="{{item.IMG_SRC}}" style="margin: 10px;">
-                <ul>
-                  {% for ex in item.EX_LIST %}
-                    <li>
-                      <input type="radio" id="q_ex_{{ex.QUIZ_SEQ}}_{{ex.SEQ}}" name="q_answer_{{ex.QUIZ_SEQ}}" value="{{ex.QUIZ_SEQ}}|{{ex.SEQ}}" />
-                      <label for="q_ex_{{ex.QUIZ_SEQ}}_{{ex.SEQ}}">{{ex.EX_TEXT}}</label>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </li>
-            
-            {% endfor %}
-          </ul>
-          </div>
+    <div id="banner-area" class="banner-area" style="background-image:url(static/images/banner/banner1.jpg)">
+      <div class="banner-text">
+        <div class="container">
           <div class="row">
-          <!-- 점수 -->
-          <div class="col-lg-5" style="margin-right: auto; margin-top: 25px;">
-            <a>문제 수 : </a>
-          </div>
-          <!-- 제출하기 버튼 -->
-          <div class="col-lg-7" style="margin-right: auto;">
-            <a href="#pop_info_1" class="slider btn btn-primary btn_open" id="levelTestButton">제출</a>
+            <div class="col-lg-12">
+              <div class="banner-heading">
+                <h1 class="banner-title">들여쓰기(indentation),주석(commnet)</h1> 
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item"><a href="#">홈</a></li>
+                    <li class="breadcrumb-item"><a href="#">학습메뉴</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">7.들여쓰기(indentation),주석(commnet)</li> 
+                  </ol>
+                </nav>
+              </div>
+            </div>
           </div>
         </div>
-        <!-- 제출하시겠습니까? 팝업 [7개 문제 다 풀었을 때] -->
-          <div id="pop_info_1" class="pop_wrap" style="display:none;">
-            <div class="pop_inner">
-            <h3>제출하시겠습니까?</h3>
-                <div class="nameInput">
-                  <label class="text">이름 </label>
-                  <input class="input" type="text" id="id" required/>
-                </div>
-                <div class="nameInput">
-                  <label class="text">비밀번호 </label>
-                  <input class="input" type="text" id="pwd" required/>
-                </div>
-                <!--버튼영역 -->
-                  <div style="text-align: center; width:100%;">
-                    <a href="#" class="slider btn-primary btn" style="display: inline-block;">제출</a>
-                    <a href="#" class="slider btn btn-primary btn_close" style="display: inline-block;" id="pop_btn_close">취소</a>
-                  </div>
-              </div>
+      </div>
+    </div>
+
+    <section id="main-container" class="main-container">
+      <div class="container">
+        <div class="row">
+          <div>
+            <a href="services.html" class="slider btn btn-primary">레벨테스트</a>
           </div>
-        <!-- 정답을 선택하지 않은 문제가 있습니다. 확인하시길 바랍니다. / 팝업 [7개 문제 다 안풀었을 때] -->
+          <div style="margin-left: auto;">
+            <a href="edu006" class="slider btn btn-primary">이전</a>
+            <a href="edu008" class="slider btn btn-primary">다음</a>
+          </div>
+          <div class="col-lg-12 mt-5 mt-lg-0">
+            <iframe width="100%" height="600" src="https://www.youtube.com/embed/jR1cu_7ZE30" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </video>
+          </div>
+        </div>
+        <div>
+          shift + enter 클릭시 실행 및 새로운 커맨드 창 추가됩니다.
+        </div>
+        <div style="overflow:scroll; width:100%; height:300px;">
+          <py-repl id="my-repl" auto-generate="true"> </py-repl>
+        </div>
       </div>
     </section>
 
     <footer id="footer" class="footer bg-overlay">
+      <!-- <div class="footer-main">
+        <div class="container">
+          <div class="row justify-content-between">
+            <div class="col-lg-4 col-md-6 footer-widget footer-about">
+              <h3 class="widget-title">About Us</h3>
+              <img loading="lazy" width="200px" class="footer-logo" src="static/images/footer-logo.png" alt="Constra">
+              <p> 파이썬 강의와 코딩 연습을 한 번에 할 수 있는 학습메뉴, 파이썬 강의를 이해했는지 확인하는 테스트 메뉴와 개발자 포럼
+                메뉴가 있는 웹사이트</p>
+            </div>
+
+            <div class="col-lg-4 col-md-6 footer-widget mt-5 mt-md-0">
+              <h3 class="widget-title">Working Hours</h3>
+              <div class="working-hours">
+                We work 7 days a week, every day excluding major holidays. Contact us if you have an emergency, with our
+                Hotline and Contact form.
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mt-5 mt-lg-0 footer-widget">
+              <h3 class="widget-title">Services</h3>
+              <ul class="list-arrow">
+                <li><a href="service-single.html">Pre-Construction</a></li>
+                <li><a href="service-single.html">General Contracting</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
       <div class="copyright">
         <div class="container">
           <div class="row align-items-center">
@@ -261,7 +204,7 @@
                 <span>Copyright &copy;
                   <script>
                     document.write(new Date().getFullYear())
-                  </script>, Designed &amp; Developed by 10조 뿌파(뿌시자 파이썬)</a>
+                  </script>, Designed &amp; Developed by 10조 뿌파(뿌시자 파이썬)
                 </span>
               </div>
             </div>
@@ -303,52 +246,6 @@
     <script src="static/js/script.js"></script>
 
   </div><!-- Body inner end -->
-  <style>
-    *{margin:0; padding:0;}
-a{text-decoration:none;}
-.wrap{padding:10px;}
-
-.pop_wrap{position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.5); font-size:0; text-align:center;}
-.pop_wrap:after{display:inline-block; height:100%; vertical-align:middle; content:'';}
-.pop_wrap .pop_inner{display:inline-block; padding:20px 30px; background:#fff; width:400px; vertical-align:middle; font-size:15px;}
-  
-        .nameInput{
-    width: 90%;
-    margin: 10px auto;
-}
-.text {
-    float: left;
-    width:30%;
-    box-sizing: border-box;
-}
-.input {
-    border: 1px solid #000000;
-    width:70%;
-    box-sizing: border-box;
-    height: 50px;
-    border-radius: 5px;
-}
-  </style>
-  <script>
-    var target = document.querySelectorAll('.btn_open');
-var btnPopClose = document.querySelectorAll('#pop_btn_close');
-var targetID;
-
-// 팝업 열기
-for(var i = 0; i < target.length; i++){
-  target[i].addEventListener('click', function(){
-    targetID = this.getAttribute('href');
-    document.querySelector(targetID).style.display = 'block';
-  });
-}
-
-// 팝업 닫기
-for(var j = 0; j < target.length; j++){
-  btnPopClose[j].addEventListener('click', function(){
-    this.parentNode.parentNode.parentNode.style.display = 'none';
-  });
-}
-  </script>
 </body>
 
 </html>

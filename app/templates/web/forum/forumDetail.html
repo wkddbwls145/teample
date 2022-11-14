@@ -112,7 +112,7 @@
                   <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div id="navbar-collapse" class="collapse navbar-collapse">
+                                <div id="navbar-collapse" class="collapse navbar-collapse">
                   <ul class="nav navbar-nav mr-auto">
                     <li class="nav-item"><a class="nav-link" href="/">홈</a></li>
                     <li class="nav-item dropdown">
@@ -143,16 +143,37 @@
                       <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">테스트 메뉴<i
                           class="fa fa-angle-down"></i></a>
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="projects.html">테스트</a></li>
-                        <li><a href="projects-single.html">결과확인</a></li>
+                        <li><a href="/quizForm">테스트</a></li>
+                        <li><a href="/resultIntro">결과확인</a></li>
                       </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="services.html.html">개발자 포럼</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/forumList">개발자 포럼</a></li>
                   </ul>
                 </div>
               </nav>
             </div>
           </div>
+
+              <div id="banner-area" class="banner-area" style="background-image:url(static/images/banner/banner1.jpg)">
+      <div class="banner-text">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="banner-heading">
+                <h1 class="banner-title">레벨테스트 풀기</h1>
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item"><a href="#">홈</a></li>
+                    <li class="breadcrumb-item"><a href="#">테스트메뉴</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">테스트</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
           <div class="search-block" style="display: none;">
             <label for="search-field" class="w-100 mb-0">
@@ -165,14 +186,14 @@
     </header>
 
     <section id="main-container" class="main-container">
-      <div class="container">
+      <div class="container" style="margin-left:12%">
         <div class="nameInput" style="display: inline-block;">
           <label class="text">제목 </label>
-          <input class="input" type="text" id="name" name="name" value="{{result.SJ}}"/>
+          <input class="input" type="text" id="name" name="name" value="{{result.SJ}}" readonly/>
         </div>
         <div class="nameInput" style="display: inline-block;">
           <label class="text">본문 </label>
-          <textarea class ="input" style="height: 300px;">{{result.CNTS}}</textarea>
+          <textarea class ="input" style="height: 300px;" readonly>{{result.CNTS}}</textarea>
         </div>
         <div style="text-align:center;" style="display: inline-block;">
           <!--<a href="/resultList" class="slider btn btn-primary">결과보기</a> -->
@@ -180,23 +201,65 @@
         <!-- 버튼영역 -->
       <div class="row">
           <div>
-            <a href="#" class="slider btn btn-primary" id="levelTestButton">목록</a>
+            <a href="/forumList" class="slider btn btn-primary" id="levelTestButton">목록</a>
           </div>
           <div style="margin-left: auto; margin-right: 90px">
-            <a href="#" class="slider btn btn-primary">수정</a>
-            <a href="#" class="slider btn btn-primary">삭제</a>
+            <a href="#pop_info_1"  class="slider btn btn-primary btn_open">수정</a>
+            <a href="#pop_info_2"  class="slider btn btn-primary btn_open">삭제</a>
           </div>
         </div>
       </div>
+      <!-- 수정하시겠습니까? 팝업 -->
+      <div id="pop_info_1" class="pop_wrap" style="display:none;">
+            <div class="pop_inner">
+                <h3>수정하시겠습니까?</h3>
+                <div class="nameInput">
+                  <label class="text">이름 </label>
+                  <input class="input" type="text" id="update_name" required/>
+                </div>
+                <div class="nameInput">
+                  <label class="text">비밀번호 </label>
+                  <input class="input" type="text" id="update_pwd" required/>
+                </div>
+                <!--버튼영역 -->
+                  <div style="text-align: center; width:100%;">
+                    <a onclick="clickUpdate('/forumUpdateForm' ,{{result.SEQ}})" class="slider btn-primary btn" style="display: inline-block;">수정</a>
+                    <a href="#" class="slider btn btn-primary btn_close" style="display: inline-block;" id="pop_btn_close">취소</a>
+                  </div>
+              </div>
+          </div>
+          <!-- 삭제하시겠습니까? 팝업-->
+          <div id="pop_info_2" class="pop_wrap" style="display:none;">
+            <div class="pop_inner">
+                <h3>삭제하시겠습니까?</h3>
+                <div class="nameInput">
+                  <label class="text">이름 </label>
+                  <input class="input" type="text" id="delete_name" required/>
+                </div>
+                <div class="nameInput">
+                  <label class="text">비밀번호 </label>
+                  <input class="input" type="text" id="delete_pwd" required/>
+                </div>
+                <!--버튼영역 -->
+                  <div style="text-align: center; width:100%;">
+                    <a onclick="clickDelete('/forumDelete', {{result.SEQ}})" class="slider btn-primary btn" style="display: inline-block;">삭제</a>
+                    <a href="#" class="slider btn btn-primary btn_close" style="display: inline-block;" id="pop_btn_close">취소</a>
+                  </div>
+              </div>
+          </div>
     </section>
 
     <section id="main-container" class="main-container">
       <div class="container">
-      <div style="float:left;">
-        <textarea style="width:90%;"></textarea>
+      <!--
+      <div style="float:left; width:100%;">
+        <div class="col-md-10"><textarea style="width:90%;"></textarea></div>
+        <div class="col-md-2"><a href="#" class="slider btn-primary btn" style="margin-left:10px">댓글등록</a></div>
       </div>
-      <div style="float:left; margin-left:10px">
-        <a href="#" class="slider btn-primary btn">댓글등록</a>
+    -->
+      <div class="row" style="margin-left:1px; margin-bottom:20px;">
+        <textarea style="width:86%; heigth:50px;" id="reply"></textarea>
+          <a onclick="createReply('/forumCommentInsert', {{result.SEQ}})" class="slider btn btn-primary" style="margin-top:0px;">댓글등록</a>
       </div>
       {% for item in commentList%}
         <textarea style="width:100%;" readonly>{{item.CNTS}}</textarea>
@@ -255,17 +318,87 @@
     <script src="static/js/script.js"></script>
 
   </div><!-- Body inner end -->
-  <py-script>
-  from js import document,window
-  from pyodide.ffi import create_proxy
+  <style>
+    *{margin:0; padding:0;}
+a{text-decoration:none;}
+.wrap{padding:10px;}
 
-  def testF(event):
-    print("sucess")
-    window.location.href = 'http://172.20.10.2:8080'
-    
-  e1 = document.getElementById("levelTestButton")
-  e1.addEventListener("click", create_proxy(testF))
-  </py-script>
+.pop_wrap{position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.5); font-size:0; text-align:center;}
+.pop_wrap:after{display:inline-block; height:100%; vertical-align:middle; content:'';}
+.pop_wrap .pop_inner{display:inline-block; padding:20px 30px; background:#fff; width:400px; vertical-align:middle; font-size:15px;}
+  
+        .nameInput{
+    width: 90%;
+    margin: 10px auto;
+}
+.text {
+    float: left;
+    width:30%;
+    box-sizing: border-box;
+}
+.input {
+    border: 1px solid #000000;
+    width:70%;
+    box-sizing: border-box;
+    height: 50px;
+    border-radius: 5px;
+}
+  </style>
+  <script>
+    var target = document.querySelectorAll('.btn_open');
+var btnPopClose = document.querySelectorAll('#pop_btn_close');
+var targetID;
+
+// 팝업 열기
+for(var i = 0; i < target.length; i++){
+  target[i].addEventListener('click', function(){
+    targetID = this.getAttribute('href');
+    document.querySelector(targetID).style.display = 'block';
+  });
+}
+
+// 팝업 닫기
+for(var j = 0; j < target.length; j++){
+  btnPopClose[j].addEventListener('click', function(){
+    this.parentNode.parentNode.parentNode.style.display = 'none';
+  });
+}
+
+function clickUpdate(path, seq){
+  var updateName = document.getElementById("update_name").value;
+  var updatePwd = document.getElementById("update_pwd").value;
+  post(path, {seq: seq});
+};
+
+function clickDelete(path, seq){
+  var deleteName = document.getElementById("delete_name").value;
+  var deletePwd = document.getElementById("delete_pwd").value;
+  post(path, {seq: seq, pwd: deletePwd});
+}
+
+function createReply(path, seq){
+  var comment = document.getElementById("reply").value;
+  console.log("commnet",comment);
+  post(path, {seq: seq, cnts: comment})
+}
+
+function post(path, params, method='post') {
+  const form = document.createElement('form');
+  form.method = method;
+  form.action = path;
+  for (const key in params) {
+    if (params.hasOwnProperty(key)) {
+      const hiddenField = document.createElement('input');
+      hiddenField.type = 'hidden';
+      hiddenField.name = key;
+      hiddenField.value = params[key];
+      form.appendChild(hiddenField);
+    }
+  }
+  document.body.appendChild(form);
+  form.submit();
+}
+  </script>
 </body>
 
 </html>

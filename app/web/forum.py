@@ -40,9 +40,10 @@ def ForumInsert():
 
     sj = request.values.get("sj")
     cnts = request.values.get("cnts")
+    name = request.values.get("name")
     pwd = request.values.get("pwd")
 
-    forum_sql.ForumDao.insertForum(sj, cnts, pwd)
+    forum_sql.ForumDao.insertForum(sj, cnts, name, pwd)
 
     return redirect('/forumList')
     
@@ -51,9 +52,12 @@ def ForumInsert():
 def ForumUpdateForm():
 
     seq = request.values.get("seq")
+    name = request.values.get("name")
+    pwd = request.values.get("pwd")
+
     result = forum_sql.ForumDao.selectForum(seq)
 
-    return render_template('/web/forum/forumUpdateForm.html', result=result)
+    return render_template('/web/forum/forumUpdateForm.html', result=result, name=name, pwd=pwd)
 
 # 포럼 게시판 수정
 @forum.route('/forumUpdate', methods=['POST','GET'])
@@ -62,9 +66,10 @@ def forumUpdate():
     seq = request.values.get("seq")
     sj = request.values.get("sj")
     cnts = request.values.get("cnts")
+    name = request.values.get("name")
     pwd = request.values.get("pwd")
 
-    forum_sql.ForumDao.updateForum(seq, sj, cnts, pwd)
+    forum_sql.ForumDao.updateForum(seq, sj, cnts, name, pwd)
 
     return redirect('/forumDetail?seq='+seq)
 
@@ -73,21 +78,34 @@ def forumUpdate():
 def forumDelete():
 
     seq = request.values.get("seq")
+    name = request.values.get("name")
     pwd = request.values.get("pwd")
 
-    forum_sql.ForumDao.deleteForum(seq, pwd)
+    forum_sql.ForumDao.deleteForum(seq, name, pwd)
 
     return redirect('/forumList')
 
 # 포럼 댓글 등록
-@forum.route('/forumCommenmtInsertAjax', methods=['POST'])
-def forumCommenmtInsertAjax():
+@forum.route('/forumCommentInsert', methods=['POST','GET'])
+def ForumCommentInsert():
 
-    data = request.get_json()
-    print(data)
+    print(request.values)
+    seq = request.values.get("seq")
+    cnts = request.values.get("cnts")
 
-    forum_sql.ForumDao.insertForumComment(data['seq'], data['cnts'])
+    forum_sql.ForumDao.insertForumComment(seq, cnts)
 
-    commentList = forum_sql.ForumDao.selectListForumComment(data['seq'])
+    return redirect('/forumDetail?seq='+seq)
 
-    return jsonify(resultCode = "success", commentList=commentList)
+# 포럼 댓글 등록
+# @forum.route('/forumCommenmtInsertAjax', methods=['POST'])
+# def forumCommenmtInsertAjax():
+
+#     data = request.get_json()
+#     print(data)
+
+#     forum_sql.ForumDao.insertForumComment(data['seq'], data['cnts'])
+
+#     commentList = forum_sql.ForumDao.selectListForumComment(data['seq'])
+
+#     return jsonify(resultCode = "success", commentList=commentList)

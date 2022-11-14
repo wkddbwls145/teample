@@ -10,19 +10,20 @@ class ForumDao:
         curs = db.cursor()
         
         sql = """
-            SELECT SEQ
-                , SJ
-                , CNTS
-                , HIT_CNT
-                , DATE_FORMAT(REG_DATE, '%Y.%m.%d') AS REG_YMD
-            FROM TB_FORUM
+            SELECT A.SEQ
+                , A.SJ
+                , A.CNTS
+                , A.HIT_CNT
+                , DATE_FORMAT(A.REG_DATE, '%Y.%m.%d') AS REG_YMD
+                , (SELECT COUNT(*) FROM TB_FORUM_COMMENT WHERE A.SEQ = FORUM_SEQ) AS COMMENT_CNT
+            FROM TB_FORUM A
             ORDER BY REG_DATE DESC
         """
         curs.execute(sql)
         
         rows = curs.fetchall()
         for e in rows:
-            temp = {'SEQ':e[0],'SJ':e[1],'CNTS':e[2],'HIT_CNT':e[3],'REG_YMD':e[4]}
+            temp = {'SEQ':e[0],'SJ':e[1],'CNTS':e[2],'HIT_CNT':e[3],'REG_YMD':e[4],'COMMENT_CNT':e[5]}
             ret.append(temp)
         
         db.commit()
@@ -40,6 +41,8 @@ class ForumDao:
                 , SJ
                 , CNTS
                 , HIT_CNT
+                , NAME
+                , PASSWORD
                 , DATE_FORMAT(REG_DATE, '%%Y.%%m.%%d') AS REG_YMD
             FROM TB_FORUM
             WHERE SEQ = %s
@@ -48,7 +51,7 @@ class ForumDao:
         
         rows = curs.fetchall()
         for row in rows:
-            data = {'SEQ':row[0],'SJ':row[1],'CNTS':row[2],'HIT_CNT':row[3],'REG_YMD':row[4]}
+            data = {'SEQ':row[0],'SJ':row[1],'CNTS':row[2],'HIT_CNT':row[3],'NAME':row[4],'PASSWORD':row[5],'REG_YMD':row[6]}
             
         # for e in rows:
         #     temp = {'SEQ':e[0],'SJ':e[1],'CNTS':e[2],'HIT_CNT':e[3],'REG_YMD':e[4]}
@@ -85,7 +88,7 @@ class ForumDao:
         db.close()
         return ret
     
-    def insertForum(sj, cnts, pwd):
+    def insertForum(sj, cnts, name, pwd):
         db = pymysql.connect(host='112.220.89.100', port=1976, db='teamproject', user='common', password='1111', charset='utf8')
         curs = db.cursor()
         
@@ -93,16 +96,18 @@ class ForumDao:
             INSERT INTO TB_FORUM (
                 SJ
                 , CNTS
+                , NAME
                 , PASSWORD
                 , REG_DATE
             ) VALUES (
                 %s
                 , %s
                 , %s
+                , %s
                 , NOW()
             )
         """
-        curs.execute(sql, (sj, cnts, pwd))
+        curs.execute(sql, (sj, cnts, name, pwd))
         db.commit()
         db.close()
     
@@ -119,7 +124,7 @@ class ForumDao:
         db.commit()
         db.close()
 
-    def updateForum(seq, sj, cnts, pwd):
+    def updateForum(seq, sj, cnts, name, pwd):
         db = pymysql.connect(host='112.220.89.100', port=1976, db='teamproject', user='common', password='1111', charset='utf8')
         curs = db.cursor()
 
@@ -129,18 +134,19 @@ class ForumDao:
                 , CNTS = %s
                 , MOD_DATE = NOW()
            WHERE SEQ = %s
+             AND NAME = %s
              AND PASSWORD = %s 
         """
-        curs.execute(sql, (seq, sj, cnts, pwd))
+        curs.execute(sql, (seq, sj, cnts, name, pwd))
         db.commit()
         db.close()
 
-    def delteteForum(seq, pwd):
+    def deleteForum(seq, name, pwd):
         db = pymysql.connect(host='112.220.89.100', port=1976, db='teamproject', user='common', password='1111', charset='utf8')
         curs = db.cursor()
         
-        sql = "DELETE FROM TB_FORUM WHERE SEQ = %s AND PASSWORD = %s"
-        curs.execute(sql, seq, pwd)
+        sql = "DELETE FROM TB_FORUM WHERE SEQ = %s AND NAME = %s AND PASSWORD = %s"
+        curs.execute(sql, (seq, name, pwd))
         db.commit()
         db.close()
 
