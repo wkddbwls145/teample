@@ -14,10 +14,7 @@ def QuizIntro():
 # 테스트 메뉴 문제풀기
 @quiz.route('/quizForm', methods=['POST','GET'])
 def QuizForm():
-
-    level_ty = request.values.get("level_ty")
-
-    resultList = quiz_sql.QuizDao.selectListQuiz(level_ty)
+    resultList = quiz_sql.QuizDao.selectListQuiz()
 
     return render_template('/web/quiz/quizForm.html', resultList=resultList)
 
@@ -25,21 +22,33 @@ def QuizForm():
 @quiz.route('/quizInsert', methods=['POST','GET'])
 def QuizeInsert():
 
-    # sj = request.values.get("sj")
-    # cnts = request.values.get("cnts")
-    # pwd = request.values.get("pwd")
+    name = request.values.get("name")
+    pwd = request.values.get("pwd")
 
-    # quiz_sql.QuizDao.insertQuizResult()
-    # quiz_sql.QuizDao.insertQuizResultDetail()
+    quizSeqList = request.values.getlist("quiz_seq")
+    answerSeqList = request.values.getlist("answer_seq")
 
-    return redirect('/web/quiz/quizResultList.html')
+    resultSeq = quiz_sql.QuizDao.insertQuizResult(name, pwd)
+
+    for i in range(len(quizSeqList)) :
+        quizSeq = quizSeqList[i]
+        answerSeq = answerSeqList[i]
+        quizOrdr = i + 1
+        quiz_sql.QuizDao.insertQuizResultDetail(quizSeq, quizOrdr, answerSeq, resultSeq)
+
+
+    return redirect('/quizResultList')
 
 # 테스트 메뉴 결과 목록
 @quiz.route('/quizResultList', methods=['POST','GET'])
 def QuizResultList():
 
+    print(request.values)
     name = request.values.get("name")
     pwd = request.values.get("pwd")
+
+    print("name = " + name)
+    print("pwd = " + pwd)
 
     resultList = quiz_sql.QuizDao.selectListQuizResult(name, pwd)
 
@@ -49,8 +58,29 @@ def QuizResultList():
 @quiz.route('/quizResultDetail', methods=['POST','GET'])
 def QuizResultDetail():
 
+    print(request)
+    print(request.values)
     seq = request.values.get("seq")
+    print("seq = " + seq)
 
     resultList = quiz_sql.QuizDao.selectListQuizResultDetail(seq)
 
     return render_template('/web/quiz/quizResultDetail.html', resultList=resultList)
+
+
+#개발테스트 페이지 모음(따로빼야함)
+@quiz.route('/quizIntro2', methods=['POST', 'GET'])
+def quizIntro2():
+    return render_template('/web/quiz/quizIntro2.html')
+
+@quiz.route('/resultIntro', methods=['POST', 'GET'])
+def resultIntro():
+    return render_template('/web/quiz/resultIntro.html')
+
+# @quiz.route('/resultList', methods=['POST', 'GET'])
+# def resultList():
+#     return render_template('/web/quiz/resultList.html')
+
+@quiz.route('/resultMain', methods=['POST', 'GET'])
+def resultMain():
+    return render_template('/web/quiz/resultMain.html')

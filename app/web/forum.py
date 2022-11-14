@@ -1,6 +1,6 @@
 from cgi import test
 from re import T
-from flask import Blueprint, request, render_template, flash, redirect, url_for
+from flask import Blueprint, request, render_template, flash, redirect, url_for, jsonify
 from flask import current_app as app
 import app.forum_sql as forum_sql
 
@@ -22,10 +22,12 @@ def ForumDetail():
     # 상세정보 조회
     result = forum_sql.ForumDao.selectForum(seq)
 
+    commentList = forum_sql.ForumDao.selectListForumComment(seq)
+
     # 조회수 증가
     forum_sql.ForumDao.updateForumHitCnt(seq)
 
-    return render_template('/web/forum/forumDetail.html', result=result)
+    return render_template('/web/forum/forumDetail.html', result=result, commentList=commentList)
 
 # 포럼 게시판 등록 폼
 @forum.route('/forumInsertForm', methods=['POST','GET'])
@@ -51,7 +53,7 @@ def ForumUpdateForm():
     seq = request.values.get("seq")
     result = forum_sql.ForumDao.selectForum(seq)
 
-    return render_template('/web/forum/forumInsertForm.html', result=result)
+    return render_template('/web/forum/forumUpdateForm.html', result=result)
 
 # 포럼 게시판 수정
 @forum.route('/forumUpdate', methods=['POST','GET'])
@@ -71,7 +73,21 @@ def forumUpdate():
 def forumDelete():
 
     seq = request.values.get("seq")
+    pwd = request.values.get("pwd")
 
-    forum_sql.ForumDao.deleteForum(seq)
+    forum_sql.ForumDao.deleteForum(seq, pwd)
 
     return redirect('/forumList')
+
+# 포럼 댓글 등록
+@forum.route('/forumCommenmtInsertAjax', methods=['POST'])
+def forumCommenmtInsertAjax():
+
+    data = request.get_json()
+    print(data)
+
+    forum_sql.ForumDao.insertForumComment(data['seq'], data['cnts'])
+
+    commentList = forum_sql.ForumDao.selectListForumComment(data['seq'])
+
+    return jsonify(resultCode = "success", commentList=commentList)

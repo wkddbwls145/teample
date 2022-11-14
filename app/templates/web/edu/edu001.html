@@ -247,15 +247,13 @@
   <py-script>
   from js import document,window
   from pyodide.ffi import create_proxy
-  print('hello')
 
   def testF(event):
     print("sucess")
-    window.location.href = 'http://172.20.10.2:8080'
+    window.location.href = 'http://127.0.0.1:8080'
     
   e1 = document.getElementById("levelTestButton")
   e1.addEventListener("click", create_proxy(testF))
-
   </py-script>
 </body>
 

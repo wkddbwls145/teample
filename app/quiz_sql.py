@@ -4,7 +4,7 @@ class QuizDao:
     def __init__(self):
         pass
     
-    def selectListQuiz(level_ty):
+    def selectListQuiz():
         ret = []
         db = pymysql.connect(host='112.220.89.100', port=1976, db='teamproject', user='common', password='1111', charset='utf8')
         curs = db.cursor()
@@ -15,12 +15,53 @@ class QuizDao:
                 , IMG_SRC
                 , SCORE
                 , DIFF
-            FROM TB_QUIZ
-            WHERE DIFF = %s
-            ORDER BY RAND()
-            LIMIT 10
+            FROM (
+                SELECT SEQ
+                    , QESTION
+                    , IMG_SRC
+                    , SCORE
+                    , DIFF
+                FROM TB_QUIZ
+                WHERE DIFF = 'E'
+                ORDER BY RAND()
+                LIMIT 0, 5
+            ) E
+            UNION ALL
+            SELECT SEQ
+                , QESTION
+                , IMG_SRC
+                , SCORE
+                , DIFF
+            FROM (
+                SELECT SEQ
+                    , QESTION
+                    , IMG_SRC
+                    , SCORE
+                    , DIFF
+                FROM TB_QUIZ
+                WHERE DIFF = 'M'
+                ORDER BY RAND()
+                LIMIT 0, 3
+            ) M
+            UNION ALL
+            SELECT SEQ
+                , QESTION
+                , IMG_SRC
+                , SCORE
+                , DIFF
+            FROM (
+                SELECT SEQ
+                    , QESTION
+                    , IMG_SRC
+                    , SCORE
+                    , DIFF
+                FROM TB_QUIZ
+                WHERE DIFF = 'H'
+                ORDER BY RAND()
+                LIMIT 0, 2
+            ) H
         """
-        curs.execute(sql, level_ty)
+        curs.execute(sql)
 
         rows = curs.fetchall()
         print(rows)
@@ -74,7 +115,6 @@ class QuizDao:
             AND PASSWORD = %s
         """
         curs.execute(sql, (name, pwd))
-        print(sql)
         
         rows = curs.fetchall()
 
@@ -157,6 +197,9 @@ class QuizDao:
         curs.execute(sql, (name, pwd))
         db.commit()
         db.close()
+
+        return curs.lastrowid
+        
 
     def insertQuizResultDetail(quizSeq, quizOrdr, answerSeq, resultSeq):
         db = pymysql.connect(host='112.220.89.100', port=1976, db='teamproject', user='common', password='1111', charset='utf8')
