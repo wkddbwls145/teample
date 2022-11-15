@@ -69,6 +69,12 @@ def forumUpdate():
     name = request.values.get("name")
     pwd = request.values.get("pwd")
 
+    print("seq = " + seq)
+    print("sj = " + sj)
+    print("cnts = " + cnts)
+    print("name = " + name)
+    print("pwd = " + pwd)
+
     forum_sql.ForumDao.updateForum(seq, sj, cnts, name, pwd)
 
     return redirect('/forumDetail?seq='+seq)

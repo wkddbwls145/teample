@@ -73,12 +73,12 @@
 }
 .text {
     float: left;
-    width:30%;
+    width:15%;
     box-sizing: border-box;
 }
 .input {
     border: 1px solid #000000;
-    width:70%;
+    width:100%;
     box-sizing: border-box;
     height: 50px;
     border-radius: 5px;
@@ -186,24 +186,25 @@
     </header>
 
     <section id="main-container" class="main-container">
-      <div class="container" style="margin-left:12%">
-        <div class="nameInput" style="display: inline-block;">
-          <label class="text">제목 </label>
-          <input class="input" type="text" id="name" name="name" value="{{result.SJ}}" readonly/>
+      <div class="container">
+        <div class="row">
+          <div class="nameInput col-md-12" style="display: inline-block;">
+            <label class="text">제목 </label>
+            <input class="input" type="text" id="name" name="name" value="{{result.SJ}}" readonly/>
+          </div>
         </div>
-        <div class="nameInput" style="display: inline-block;">
-          <label class="text">본문 </label>
-          <textarea class ="input" style="height: 300px;" readonly>{{result.CNTS}}</textarea>
+        <div class="row">
+          <div class="nameInput col-md-12" style="display: inline-block;">
+            <label class="text">본문 </label>
+            <textarea class ="input" style="height: 300px;" readonly>{{result.CNTS}}</textarea>
+          </div>
         </div>
-        <div style="text-align:center;" style="display: inline-block;">
-          <!--<a href="/resultList" class="slider btn btn-primary">결과보기</a> -->
-        </div>
-        <!-- 버튼영역 -->
+         <!-- 버튼영역 -->
       <div class="row">
           <div>
             <a href="/forumList" class="slider btn btn-primary" id="levelTestButton">목록</a>
           </div>
-          <div style="margin-left: auto; margin-right: 90px">
+          <div style="margin-left: auto;">
             <a href="#pop_info_1"  class="slider btn btn-primary btn_open">수정</a>
             <a href="#pop_info_2"  class="slider btn btn-primary btn_open">삭제</a>
           </div>

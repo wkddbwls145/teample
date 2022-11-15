@@ -137,7 +137,7 @@ class ForumDao:
              AND NAME = %s
              AND PASSWORD = %s 
         """
-        curs.execute(sql, (seq, sj, cnts, name, pwd))
+        curs.execute(sql, (sj, cnts, seq, name, pwd))
         db.commit()
         db.close()
 

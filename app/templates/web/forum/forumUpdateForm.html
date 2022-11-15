@@ -73,12 +73,12 @@
 }
 .text {
     float: left;
-    width:30%;
+    width:15%;
     box-sizing: border-box;
 }
 .input {
     border: 1px solid #000000;
-    width:70%;
+    width:100%;
     box-sizing: border-box;
     height: 50px;
     border-radius: 5px;
@@ -186,14 +186,18 @@
     </header>
 
     <section id="main-container" class="main-container">
-      <div class="container" style="margin-left:12%">
-        <div class="nameInput" style="display: inline-block;">
-          <label class="text">제목 </label>
-          <input class="input" type="text" id="title" name="title" value="{{result.SJ}}"/>
+      <div class="container">
+        <div class="row">
+          <div class="nameInput col-md-12" style="display: inline-block;">
+            <label class="text">제목 </label>
+            <input class="input" type="text" id="title" name="title" value="{{result.SJ}}"/>
+          </div>
         </div>
-        <div class="nameInput" style="display: inline-block;">
-          <label class="text">본문 </label>
-          <textarea class ="input" style="height: 300px;" id="cnts">{{result.CNTS}}</textarea>
+        <div class="row">
+          <div class="nameInput col-md-12" style="display: inline-block;">
+            <label class="text">본문 </label>
+            <textarea class ="input" style="height: 300px;" id="cnts">{{result.CNTS}}</textarea>
+          </div>
         </div>
         <div style="text-align:center;" style="display: inline-block;">
           <!--<a href="/resultList" class="slider btn btn-primary">결과보기</a> -->
@@ -203,26 +207,13 @@
           <div>
             <a href="/forumList" class="slider btn btn-primary" id="levelTestButton">목록</a>
           </div>
-          <div style="margin-left: auto; margin-right: 90px">
-            <a href="#" class="slider btn btn-primary">수정</a>
+          <div style="margin-left: auto;">
+            <a onclick="updateForum('/forumUpdate', '{{result.SEQ}}', '{{result.PASSWORD}}','{{result.NAME}}')" class="slider btn btn-primary">수정</a>
           </div>
         </div>
       </div>
     </section>
 
-<!--
-    <section id="main-container" class="main-container">
-      <div class="container">
-      <div class="row" style="margin-left:1px; margin-bottom:20px;">
-        <textarea style="width:89%; heigth:50px;"></textarea>
-          <a href="#" class="slider btn btn-primary" style="margin-top:0px;">삭제</a>
-      </div>
-      {% for item in commentList%}
-        <textarea style="width:100%;" readonly>{{item.CNTS}}</textarea>
-      {% endfor %}
-      </div>
-    </section>
--->
     <footer id="footer" class="footer bg-overlay">
       <div class="copyright">
         <div class="container">
@@ -274,6 +265,36 @@
     <script src="static/js/script.js"></script>
 
   </div><!-- Body inner end -->
+  <script>
+    function updateForum(path, seq, pwd, name){
+    var title = document.getElementById("title").value;
+    var content = document.getElementById("cnts").value;
+
+    /*
+    var name =document.getElementById("name").value;
+    var pwd = document.getElementById("pwd").value;
+    */
+
+    post(path, {seq: seq, sj: title, cnts: content, name: name, pwd:pwd});
+  }
+
+function post(path, params, method='post') {
+  const form = document.createElement('form');
+  form.method = method;
+  form.action = path;
+  for (const key in params) {
+    if (params.hasOwnProperty(key)) {
+      const hiddenField = document.createElement('input');
+      hiddenField.type = 'hidden';
+      hiddenField.name = key;
+      hiddenField.value = params[key];
+      form.appendChild(hiddenField);
+    }
+  }
+  document.body.appendChild(form);
+  form.submit();
+}
+  </script>
 </body>
 </body>
 
