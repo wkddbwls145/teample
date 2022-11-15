@@ -47,9 +47,6 @@ def QuizResultList():
     name = request.values.get("name")
     pwd = request.values.get("pwd")
 
-    print("name = " + name)
-    print("pwd = " + pwd)
-
     resultList = quiz_sql.QuizDao.selectListQuizResult(name, pwd)
 
     return render_template('/web/quiz/quizResultList.html', resultList=resultList)

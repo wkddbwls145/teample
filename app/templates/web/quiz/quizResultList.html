@@ -190,11 +190,11 @@
                       <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">테스트 메뉴<i
                           class="fa fa-angle-down"></i></a>
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="/quizForm">테스트</a></li>
-                        <li><a href="/resultIntro">결과확인</a></li>
+                        <li><a href="quizForm">테스트</a></li>
+                        <li><a href="resultIntro">결과확인</a></li>
                       </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/forumList">개발자 포럼</a></li>
+                    <li class="nav-item"><a class="nav-link" href="forumList">개발자 포럼</a></li>
                   </ul>
                 </div>
               </nav>
@@ -233,26 +233,25 @@
     </header>
 
     <section id="main-container" class="main-container">
-        {{resultList}}
+        <div class="container">
         <div style="text-align: center;">
           <table>
             <tr>
               <td>no</td>
               <td>결과</td>
-              <td>난이도</td>
               <td>제출일자</td>
               <td>상세보기</td>
             </tr>
             {% for item in resultList%}
             <tr>
               <td>{{item.SEQ}}</td>
-              <td>.</td>
-              <td>.</td>
+              <td> {{item.CORR_SCORE}} / {{item.TOT_SCORE}}</td>
               <td>{{item.REG_YMD}}</td>
               <td><button type="button" onclick="post('/quizResultDetail',{seq: '{{item.SEQ}}'})" class="btn yellow rounded">상세보기</button></td>
             </tr>
             {% endfor %}
           </table>
+        </div>
         </div>
     </section>
 

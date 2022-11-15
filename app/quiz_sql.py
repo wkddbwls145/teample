@@ -102,14 +102,17 @@ class QuizDao:
         sql = """
             SELECT A.SEQ
                 , DATE_FORMAT(A.REG_DATE, '%%Y.%%m.%%d') AS REG_YMD
-                , IFNULL(B.TOT_SCORE, 0) AS TOT_SCORE
+                , CAST(IFNULL(B.CORR_SCORE, 0) AS SIGNED) AS CORR_SCORE /* 획득점수 */
+                , CAST(IFNULL(B.TOT_SCORE, 0) AS SIGNED) AS TOT_SCORE /* 총점 */
             FROM TB_QUIZ_RESULT A
             LEFT OUTER JOIN (
                 SELECT A.RESULT_SEQ
-                    , SUM(CASE WHEN B.CORR_YN = 'Y' THEN C.SCORE ELSE 0 END) AS TOT_SCORE
+                    , SUM(CASE WHEN B.CORR_YN = 'Y' THEN C.SCORE ELSE 0 END) AS CORR_SCORE
+                    , SUM(C.SCORE) AS TOT_SCORE
                 FROM TB_QUIZ_RESULT_DETAIL A
                 LEFT OUTER JOIN TB_QUIZ_EX B ON A.QUIZ_SEQ = B.QUIZ_SEQ AND A.ANSWER_SEQ = B.SEQ
                 LEFT OUTER JOIN TB_QUIZ C ON B.QUIZ_SEQ = C.SEQ
+                GROUP BY A.RESULT_SEQ
             ) B ON A.SEQ = B.RESULT_SEQ
             WHERE NAME = %s
             AND PASSWORD = %s
@@ -120,12 +123,12 @@ class QuizDao:
 
         print(rows)
         for e in rows:
-            temp = {'SEQ':e[0],'REG_YMD':e[1],'TOT_SCORE':e[2]}
+            temp = {'SEQ':e[0],'REG_YMD':e[1],'CORR_SCORE':e[2],'TOT_SCORE':e[3]}
             ret.append(temp)
         
         db.commit()
         db.close()
-        return ret
+        return ret;
 
     def selectListQuizResultDetail(seq):
         ret = []
