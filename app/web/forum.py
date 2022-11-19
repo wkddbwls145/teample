@@ -79,7 +79,7 @@ def forumUpdate():
 
     return redirect('/forumDetail?seq='+seq)
 
-# 포럼 게시판 수정
+# 포럼 게시판 삭제
 @forum.route('/forumDelete', methods=['POST','GET'])
 def forumDelete():
 

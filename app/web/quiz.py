@@ -22,11 +22,15 @@ def QuizForm():
 @quiz.route('/quizInsert', methods=['POST','GET'])
 def QuizeInsert():
 
+    print(request.values);
     name = request.values.get("name")
     pwd = request.values.get("pwd")
 
     quizSeqList = request.values.getlist("quiz_seq")
     answerSeqList = request.values.getlist("answer_seq")
+
+    print("name = " + name)
+    print("pwd = " + pwd)
 
     resultSeq = quiz_sql.QuizDao.insertQuizResult(name, pwd)
 
@@ -37,7 +41,8 @@ def QuizeInsert():
         quiz_sql.QuizDao.insertQuizResultDetail(quizSeq, quizOrdr, answerSeq, resultSeq)
 
 
-    return redirect('/quizResultList')
+    resultList = quiz_sql.QuizDao.selectListQuizResult(name, pwd)
+    return render_template('/web/quiz/quizResultList.html', resultList=resultList)
 
 # 테스트 메뉴 결과 목록
 @quiz.route('/quizResultList', methods=['POST','GET'])
@@ -51,6 +56,19 @@ def QuizResultList():
 
     return render_template('/web/quiz/quizResultList.html', resultList=resultList)
 
+# 테스트 메뉴 결과 목록2
+@quiz.route('/quizResultList2', methods=['POST','GET'])
+def QuizResultList2():
+
+    print(request.values)
+
+    seq = request.values.get("seq")
+    userInfo = quiz_sql.QuizDao.selectUserInfo(seq)
+
+    resultList = quiz_sql.QuizDao.selectListQuizResult(userInfo[0], userInfo[1])
+
+    return render_template('/web/quiz/quizResultList.html', resultList=resultList)
+
 # 테스트 메뉴 결과 상세
 @quiz.route('/quizResultDetail', methods=['POST','GET'])
 def QuizResultDetail():
@@ -60,9 +78,16 @@ def QuizResultDetail():
     seq = request.values.get("seq")
     print("seq = " + seq)
 
+    #name = request.values.get("name")
+    #pwd = request.values.get("pwd")
+    userInfo = quiz_sql.QuizDao.selectUserInfo(seq)
+
+    resultList2 = quiz_sql.QuizDao.selectQuizResult(seq, userInfo[0], userInfo[1])
+
+
     resultList = quiz_sql.QuizDao.selectListQuizResultDetail(seq)
 
-    return render_template('/web/quiz/quizResultDetail.html', resultList=resultList)
+    return render_template('/web/quiz/quizResultDetail.html', resultList=resultList, resultList2=resultList2)
 
 
 #개발테스트 페이지 모음(따로빼야함)
@@ -73,10 +98,6 @@ def quizIntro2():
 @quiz.route('/resultIntro', methods=['POST', 'GET'])
 def resultIntro():
     return render_template('/web/quiz/resultIntro.html')
-
-# @quiz.route('/resultList', methods=['POST', 'GET'])
-# def resultList():
-#     return render_template('/web/quiz/resultList.html')
 
 @quiz.route('/resultMain', methods=['POST', 'GET'])
 def resultMain():

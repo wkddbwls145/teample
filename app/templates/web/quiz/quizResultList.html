@@ -104,7 +104,7 @@
     padding: 10px;
   }
 
-  .btn.yellow, .btn-two.yellow {background-color: #f0d264;}
+  .btn.yellow, .btn-two.yellow {background-color: #ffb600;}
 
   .btn.mini, 
 .btn-two.mini, 
@@ -207,13 +207,8 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="banner-heading">
-                <h1 class="banner-title">레벨테스트 풀기</h1>
+                <h1 class="banner-title">레벨테스트 결과 목록</h1>
                 <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb justify-content-center">
-                    <li class="breadcrumb-item"><a href="#">홈</a></li>
-                    <li class="breadcrumb-item"><a href="#">테스트메뉴</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">테스트</li>
-                  </ol>
                 </nav>
               </div>
             </div>
@@ -247,7 +242,7 @@
               <td>{{item.SEQ}}</td>
               <td> {{item.CORR_SCORE}} / {{item.TOT_SCORE}}</td>
               <td>{{item.REG_YMD}}</td>
-              <td><button type="button" onclick="post('/quizResultDetail',{seq: '{{item.SEQ}}'})" class="btn yellow rounded">상세보기</button></td>
+              <td><button type="button" onclick="post('/quizResultDetail',{seq: {{item.SEQ}}})" class="btn yellow rounded">상세보기</button></td>
             </tr>
             {% endfor %}
           </table>
@@ -320,6 +315,7 @@
   </py-script>
   -->
   <script>
+
   function post(path, params, method='post') {
   const form = document.createElement('form');
   form.method = method;

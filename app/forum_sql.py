@@ -144,7 +144,6 @@ class ForumDao:
     def deleteForum(seq, name, pwd):
         db = pymysql.connect(host='112.220.89.100', port=1976, db='teamproject', user='common', password='1111', charset='utf8')
         curs = db.cursor()
-        
         sql = "DELETE FROM TB_FORUM WHERE SEQ = %s AND NAME = %s AND PASSWORD = %s"
         curs.execute(sql, (seq, name, pwd))
         db.commit()
