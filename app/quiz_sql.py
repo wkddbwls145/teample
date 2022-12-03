@@ -190,7 +190,7 @@ class QuizDao:
             INSERT INTO TB_QUIZ_RESULT (
                 NAME
                 , PASSWORD
-                , TIMER
+                , TIME
                 , REG_DATE
             ) VALUES (
                 %s
@@ -263,6 +263,8 @@ class QuizDao:
                     , DATE_FORMAT(A.REG_DATE, '%%Y.%%m.%%d') AS REG_YMD
                     , CAST(IFNULL(B.CORR_SCORE, 0) AS SIGNED) AS CORR_SCORE /* 획득점수 */
                     , CAST(IFNULL(B.TOT_SCORE, 0) AS SIGNED) AS TOT_SCORE /* 총점 */
+                    , A.NAME
+                    , A.TIME
                 FROM TB_QUIZ_RESULT A
                 LEFT OUTER JOIN (
                     SELECT A.RESULT_SEQ
@@ -283,7 +285,7 @@ class QuizDao:
 
             print(rows)
             for e in rows:
-                temp = {'SEQ':e[0],'REG_YMD':e[1],'CORR_SCORE':e[2],'TOT_SCORE':e[3]}
+                temp = {'SEQ':e[0],'REG_YMD':e[1],'CORR_SCORE':e[2],'TOT_SCORE':e[3],'NAME':e[4],'TIME':e[5]}
             
             db.commit()
             db.close()

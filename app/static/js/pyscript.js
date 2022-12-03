@@ -13601,7 +13601,7 @@
         "&.cm-focused .cm-cursor": {
             display: "block"
         },
-        "&light .cm-activeLine": { backgroundColor: "#f3f9ff" },
+        "&light .cm-activeLine": { backgroundColor: "#ffb6005e" },
         "&dark .cm-activeLine": { backgroundColor: "#223039" },
         "&light .cm-specialChar": { color: "red" },
         "&dark .cm-specialChar": { color: "#f78" },
@@ -18675,7 +18675,7 @@
             whiteSpace: "nowrap"
         },
         "&light .cm-activeLineGutter": {
-            backgroundColor: "#e2f2ff"
+            backgroundColor: "#ffb60091"
         },
         "&dark .cm-activeLineGutter": {
             backgroundColor: "#222227"

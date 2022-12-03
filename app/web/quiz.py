@@ -32,6 +32,7 @@ def QuizeInsert():
 
     print("name = " + name)
     print("pwd = " + pwd)
+    print("time = " + time)
 
     resultSeq = quiz_sql.QuizDao.insertQuizResult(name, pwd, time)
 

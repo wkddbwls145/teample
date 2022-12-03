@@ -193,7 +193,7 @@
         <div class="row">
           <div class="nameInput col-md-12" style="display: inline-block;">
             <label class="text">본문 </label>
-            <textarea class ="input" style="height: 300px;" id="cnts">{{result.CNTS}}</textarea>
+            <textarea class ="input" style="height: 300px;" id="cnts"></textarea>
           </div>
         </div>
         <div style="text-align:center;" style="display: inline-block;">
@@ -267,6 +267,7 @@
     var title = document.getElementById("title").value;
     var content = document.getElementById("cnts").value;
 
+    content=content.replace(/(?:\r\n|\r|\n)/g,'<br/>');
     /*
     var name =document.getElementById("name").value;
     var pwd = document.getElementById("pwd").value;
@@ -291,6 +292,16 @@ function post(path, params, method='post') {
   document.body.appendChild(form);
   form.submit();
 }
+$(document).ready(function(){
+  var content = '{{result.CNTS}}';
+  content = content.replaceAll("&gt;", ">");
+  content = content.replaceAll("&lt;", "<");
+  console.log(content);
+  content = content.replaceAll("<br/>", "\r\n");
+  console.log("content = " + content);
+  const element = document.getElementById('cnts');
+  element.innerHTML=content;
+})
   </script>
 </body>
 </body>

@@ -188,17 +188,17 @@
         <div class="row">
           <div class="nameInput col-md-6" style="display: inline-block;">
             <label class="text">이름</label>
-            <input class="input" type="text" id="name" name="name"/>
+            <input class="input" type="text" id="name" name="name" required/>
           </div>
           <div class="nameInput col-md-6" style="display: inline-block;">
             <label class="text">비밀번호</label>
-            <input class="input" type="text" id="pwd" name="pwd"/>
+            <input class="input" type="password" id="pwd" name="pwd" required/>
           </div>
         </div>
         <div class="row">
           <div class="nameInput col-md-12" style="display: inline-block;">
             <label class="text">제목 </label>
-            <input class="input" type="text" id="title" name="title"/>
+            <input class="input" type="text" id="title" name="title" required/>
           </div>
         </div>
         <div class="row">
@@ -287,11 +287,36 @@
 
   </div><!-- Body inner end -->
   <script>
+  
   function createForum(path){
     var title = document.getElementById("title").value;
     var content = document.getElementById("cnts").value;
     var name =document.getElementById("name").value;
     var pwd = document.getElementById("pwd").value;
+
+    //text=text.replace(/(?:\r\n|\r|\n)/g,'<br/>');
+    content=content.replace(/(?:\r\n|\r|\n)/g,'<br/>');
+
+
+    if (name ==""){
+      alert("이름을 입력해주세요.")
+      return;
+    }
+
+    if (pwd ==""){
+      alert("비밀번호를 입력해주세요.")
+      return;
+    }
+
+    if (title ==""){
+      alert("제목을 입력해주세요.")
+      return;
+    }
+
+    if (content ==""){
+      alert("내용을 입력해주세요.")
+      return;
+    }
 
     post(path, {sj: title, cnts: content, name: name, pwd:pwd});
   }

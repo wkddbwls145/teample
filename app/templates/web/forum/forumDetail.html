@@ -69,23 +69,6 @@
         color:#FFFFFF;
         font-size: 70px;
 			}
-
-            .nameInput{
-    width: 90%;
-    margin: 10px auto;
-}
-.text {
-    float: left;
-    width:15%;
-    box-sizing: border-box;
-}
-.input {
-    border: 1px solid #000000;
-    width:100%;
-    box-sizing: border-box;
-    height: 50px;
-    border-radius: 5px;
-}
 		</style>
 </head>
 
@@ -191,9 +174,7 @@
         <a> 조회수: {{result.HIT_CNT}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
         </div>
         <hr class="one">
-        <div style="height: 300px;">
-          {{result.CNTS}}
-        </div>
+        <div style="height: 300px; overflow:scroll;" id="cnts"></div>
       <!--
         <div class="row">
           <div class="nameInput col-md-12" style="display: inline-block;">
@@ -234,7 +215,7 @@
                 <!--버튼영역 -->
                   <div style="text-align: center; width:100%;">
                     <a onclick="clickUpdate('/forumUpdateForm' ,{{result.SEQ}})" class="slider btn-primary btn" style="display: inline-block;">수정</a>
-                    <a href="#" class="slider btn btn-primary btn_close" style="display: inline-block;" id="pop_btn_close">취소</a>
+                    <a class="slider btn btn-primary btn_close" style="display: inline-block;" id="pop_btn_close">취소</a>
                   </div>
               </div>
           </div>
@@ -253,7 +234,7 @@
                 <!--버튼영역 -->
                   <div style="text-align: center; width:100%;">
                     <a onclick="clickDelete('/forumDelete', {{result.SEQ}})" class="slider btn-primary btn" style="display: inline-block;">삭제</a>
-                    <a href="#" class="slider btn btn-primary btn_close" style="display: inline-block;" id="pop_btn_close">취소</a>
+                    <a class="slider btn btn-primary btn_close" style="display: inline-block;" id="pop_btn_close">취소</a>
                   </div>
               </div>
           </div>
@@ -261,15 +242,11 @@
 
     <section id="main-container" class="main-container">
       <div class="container">
-      <!--
-      <div style="float:left; width:100%;">
-        <div class="col-md-10"><textarea style="width:90%;"></textarea></div>
-        <div class="col-md-2"><a href="#" class="slider btn-primary btn" style="margin-left:10px">댓글등록</a></div>
-      </div>
-    -->
+    
+    
       <div class="row" style="margin-left:1px; margin-bottom:20px;">
         <textarea style="width:86%; heigth:50px;" id="reply"></textarea>
-          <a onclick="createReply('/forumCommentInsert', {{result.SEQ}})" class="slider btn btn-primary" style="margin-top:0px;">댓글등록</a>
+          <a onclick="createReply('/forumCommentInsert', {{result.SEQ}})" class="slider btn btn-primary" style="margin-top:0px; margin-left: 24px;">댓글등록</a>
       </div>
       {% for item in commentList%}
       <div style="border: 1px solid #000000; margin-bottom:5px; height:150px;">
@@ -354,12 +331,13 @@ a{text-decoration:none;}
     float: left;
     width:30%;
     box-sizing: border-box;
+    margin-top: 8px;
 }
 .input {
     border: 1px solid #000000;
     width:70%;
     box-sizing: border-box;
-    height: 50px;
+    height: 40px;
     border-radius: 5px;
 }
   </style>
@@ -461,6 +439,14 @@ function post(path, params, method='post') {
   document.body.appendChild(form);
   form.submit();
 }
+
+$(document).ready(function(){
+  var content = '{{result.CNTS}}';
+  content = content.replaceAll("&gt;", ">");
+  content = content.replaceAll("&lt;", "<");
+  const element = document.getElementById('cnts');
+  element.innerHTML=content;
+})
   </script>
 </body>
 
