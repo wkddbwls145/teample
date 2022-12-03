@@ -170,6 +170,33 @@ class ForumDao:
         db.commit()
         db.close()
 
+    def selectForumExistYn(seq, name, pwd):
+
+        ret = []
+        db = pymysql.connect(host='112.220.89.100', port=1976, db='teamproject', user='common', password='1111', charset='utf8')
+        curs = db.cursor()
+        
+        sql = """
+            SELECT CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END AS EXIST_YN
+            FROM TB_FORUM
+            WHERE SEQ = %s
+                AND NAME = %s
+                AND PASSWORD = %s
+        """
+        curs.execute(sql, (seq, name, pwd))
+        
+        rows = curs.fetchall()
+        for row in rows:
+            data = row[0]
+            
+        # for e in rows:
+        #     temp = {'SEQ':e[0],'SJ':e[1],'CNTS':e[2],'HIT_CNT':e[3],'REG_YMD':e[4]}
+        #     ret.append(temp)
+        
+        db.commit()
+        db.close()
+        return data
+
 if __name__ == '__main__':
     resultList = ForumDao().selectListForum()
     print(resultList)

@@ -104,6 +104,7 @@ class QuizDao:
                 , DATE_FORMAT(A.REG_DATE, '%%Y.%%m.%%d') AS REG_YMD
                 , CAST(IFNULL(B.CORR_SCORE, 0) AS SIGNED) AS CORR_SCORE /* 획득점수 */
                 , CAST(IFNULL(B.TOT_SCORE, 0) AS SIGNED) AS TOT_SCORE /* 총점 */
+                , TIME_FORMAT(SEC_TO_TIME(90), '%%i:%%s') AS TIME /* 풀이시간 */
             FROM TB_QUIZ_RESULT A
             LEFT OUTER JOIN (
                 SELECT A.RESULT_SEQ
@@ -123,7 +124,7 @@ class QuizDao:
 
         print(rows)
         for e in rows:
-            temp = {'SEQ':e[0],'REG_YMD':e[1],'CORR_SCORE':e[2],'TOT_SCORE':e[3]}
+            temp = {'SEQ':e[0],'REG_YMD':e[1],'CORR_SCORE':e[2],'TOT_SCORE':e[3],'TIME':e[4]}
             ret.append(temp)
         
         db.commit()
@@ -181,7 +182,7 @@ class QuizDao:
         db.close()
         return ret
     
-    def insertQuizResult(name, pwd):
+    def insertQuizResult(name, pwd, time):
         db = pymysql.connect(host='112.220.89.100', port=1976, db='teamproject', user='common', password='1111', charset='utf8')
         curs = db.cursor()
         
@@ -189,15 +190,17 @@ class QuizDao:
             INSERT INTO TB_QUIZ_RESULT (
                 NAME
                 , PASSWORD
+                , TIMER
                 , REG_DATE
             ) VALUES (
                 %s
+                , %s
                 , %s
                 , NOW()
             )
         """
 
-        curs.execute(sql, (name, pwd))
+        curs.execute(sql, (name, pwd, time))
         db.commit()
         db.close()
 

@@ -103,6 +103,16 @@ def ForumCommentInsert():
 
     return redirect('/forumDetail?seq='+seq)
 
+@forum.route('/selectForumExistYnAjax', methods=['POST'])
+def selectForumExistYnAjax():
+
+    data = request.get_json()
+    print(data)
+
+    resultYn = forum_sql.ForumDao.selectForumExistYn(data['seq'], data['name'], data['pwd'])
+
+    return jsonify(resultCode = "success", resultYn=resultYn)
+
 # 포럼 댓글 등록
 # @forum.route('/forumCommenmtInsertAjax', methods=['POST'])
 # def forumCommenmtInsertAjax():

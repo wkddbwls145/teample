@@ -22,9 +22,10 @@ def QuizForm():
 @quiz.route('/quizInsert', methods=['POST','GET'])
 def QuizeInsert():
 
-    print(request.values);
+    print(request.values)
     name = request.values.get("name")
     pwd = request.values.get("pwd")
+    time = request.values.get("time")
 
     quizSeqList = request.values.getlist("quiz_seq")
     answerSeqList = request.values.getlist("answer_seq")
@@ -32,7 +33,7 @@ def QuizeInsert():
     print("name = " + name)
     print("pwd = " + pwd)
 
-    resultSeq = quiz_sql.QuizDao.insertQuizResult(name, pwd)
+    resultSeq = quiz_sql.QuizDao.insertQuizResult(name, pwd, time)
 
     for i in range(len(quizSeqList)) :
         quizSeq = quizSeqList[i]
